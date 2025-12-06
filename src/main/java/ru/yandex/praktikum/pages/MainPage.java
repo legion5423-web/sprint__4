@@ -70,3 +70,4 @@ public class MainPage {
         driver.findElement(yandexLogo).click();
     }
 }
+test test
