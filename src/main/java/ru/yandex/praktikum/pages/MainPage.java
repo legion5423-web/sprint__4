@@ -17,20 +17,49 @@ public class MainPage {
     private By scooterLogo = By.className("Header_LogoScooter__3lsAR");
     private By yandexLogo = By.className("Header_LogoYandex__3TSOI");
     private By cookieButton = By.id("rcc-confirm-button");
+    private By faqSection = By.className("Home_FourPart__1uthg");
 
     public MainPage(WebDriver driver) {
         this.driver = driver;
     }
 
-    // Метод для получения локатора вопроса (упрощённый)
+    // Метод для клика на вопрос FAQ
     public void clickQuestion(int index) {
+        System.out.println("Кликаем на вопрос #" + index);
         By questionLocator = By.id("accordion__heading-" + index);
-        driver.findElement(questionLocator).click();
+        WebElement question = driver.findElement(questionLocator);
+
+        // Прокручиваем к элементу
+        ((org.openqa.selenium.JavascriptExecutor) driver)
+                .executeScript("arguments[0].scrollIntoView(true);", question);
+
+        // Ждем, пока элемент станет кликабельным
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.elementToBeClickable(question));
+
+        // Кликаем
+        question.click();
+
+        // Даем время для анимации
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
+    // Метод для получения текста ответа с ожиданием
     public String getAnswerText(int index) {
         By answerLocator = By.id("accordion__panel-" + index);
-        return driver.findElement(answerLocator).getText();
+
+        // Ждем, пока ответ станет видимым
+        WebElement answerElement = new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.visibilityOfElementLocated(answerLocator));
+
+        // Получаем текст
+        String text = answerElement.getText();
+        System.out.println("Текст ответа #" + index + ": " + text);
+        return text;
     }
 
     public void open() {
@@ -47,8 +76,10 @@ public class MainPage {
             WebElement button = new WebDriverWait(driver, Duration.ofSeconds(5))
                     .until(ExpectedConditions.elementToBeClickable(cookieButton));
             button.click();
+            System.out.println("Куки приняты");
         } catch (Exception e) {
             // Игнорируем, если кнопка не найдена
+            System.out.println("Кнопка куки не найдена");
         }
     }
 
@@ -68,5 +99,17 @@ public class MainPage {
 
     public void clickYandexLogo() {
         driver.findElement(yandexLogo).click();
+    }
+
+    // Метод для прокрутки к разделу FAQ
+    public void scrollToFAQ() {
+        WebElement faqElement = driver.findElement(faqSection);
+        ((org.openqa.selenium.JavascriptExecutor) driver)
+                .executeScript("arguments[0].scrollIntoView(true);", faqElement);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
