@@ -96,9 +96,12 @@ public class OrderPage {
     private void selectMetroStation(String metro) {
         WebElement metroElement = wait.until(ExpectedConditions.elementToBeClickable(metroField));
         metroElement.click();
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//div[contains(@class, 'select-search__select')]")));
+
         metroElement.sendKeys(metro);
 
-        // Альтернативный локатор - любая опция, содержащая текст станции
         By stationLocator = By.xpath("//*[contains(text(), '" + metro + "')]");
         WebElement station = wait.until(ExpectedConditions.elementToBeClickable(stationLocator));
         station.click();
@@ -157,3 +160,4 @@ public class OrderPage {
         }
     }
 }
+// испр
