@@ -16,7 +16,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 @RunWith(Parameterized.class)
 public class OrderTest {
-// Вопрос: тесты падают при нажатии кнопки "Заказать", так и должно быть? (я вертел и так и этак, и в результате переусложнил)
+
     private WebDriver driver;
     private MainPage mainPage;
     private OrderPage orderPage;
@@ -63,7 +63,7 @@ public class OrderTest {
 
     @Before
     public void setUp() {
-        // Всегда используем Chrome для единого окружения
+
         driver = DriverFactory.createDriver("chrome");
         mainPage = new MainPage(driver);
         orderPage = new OrderPage(driver);
@@ -110,3 +110,4 @@ public class OrderTest {
         }
     }
 }
+//испр?
