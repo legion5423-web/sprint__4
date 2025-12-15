@@ -25,6 +25,7 @@ public class MainPage {
     }
 
     public void clickQuestion(int index) {
+        System.out.println("Кликаем на вопрос #" + index);
         By questionLocator = By.id("accordion__heading-" + index);
         WebElement question = wait.until(ExpectedConditions.elementToBeClickable(questionLocator));
 
@@ -36,6 +37,7 @@ public class MainPage {
                 By.id("accordion__panel-" + index)));
     }
 
+    // Метод для получения текста ответа с ожиданием
     public String getAnswerText(int index) {
         By answerLocator = By.id("accordion__panel-" + index);
         WebElement answerElement = wait.until(ExpectedConditions.visibilityOfElementLocated(answerLocator));
@@ -54,6 +56,7 @@ public class MainPage {
         try {
             WebElement button = wait.until(ExpectedConditions.elementToBeClickable(cookieButton));
             button.click();
+            System.out.println("Куки приняты");
         } catch (Exception e) {
 
         }
